@@ -7,4 +7,6 @@ export class ResManager {
         return this._instance;
     }
     private constructor() { }
+
+    init() { }
 }
