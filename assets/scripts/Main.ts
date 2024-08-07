@@ -4,21 +4,16 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Main')
 export class Main extends Component {
-    start() {
+    protected onLoad(): void {
+        this.node._persistNode = true;
+    }
+
+    protected start() {
         ConfigManager.instance.init();
     }
 
-    update(deltaTime: number) {
+    protected update(deltaTime: number) {
 
-    }
-
-    /**点击进入游戏 */
-    clickEnter() {
-        assetManager.loadBundle("main_scene", (err, bundle) => {
-            bundle.loadScene('main_scene', (err, scene) => {
-                director.runScene(scene);
-            });
-        });
     }
 }
 
