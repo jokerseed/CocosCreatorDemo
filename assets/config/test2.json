@@ -1,0 +1,40 @@
+{
+  "Sheet1": [
+    {
+      "ID": "BS001",
+      "Name": "钟馗",
+      "HP": 100,
+      "TestJsonArray": [
+        "player",
+        "enemy"
+      ],
+      "TestJsonObject": {
+        "player": "enemy"
+      }
+    },
+    {
+      "ID": "BS002",
+      "Name": "",
+      "HP": 1,
+      "TestJsonArray": [
+        "player",
+        1
+      ],
+      "TestJsonObject": {
+        "player": 1
+      }
+    }
+  ],
+  "Sheet2": [
+    {
+      "ID2": "BS001",
+      "Name2": "钟馗",
+      "HP2": 100
+    },
+    {
+      "ID2": "BS002",
+      "Name2": "",
+      "HP2": 1
+    }
+  ]
+}
