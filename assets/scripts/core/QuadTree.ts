@@ -36,7 +36,7 @@ export class QuadTree {
 
     updateNode(node: Node2D) {
         //需要先清除现有节点的node缓存
-
+        this._rootNode.checkAgain(node);
         this._rootNode.updateNode(node);
     }
 }
@@ -63,6 +63,22 @@ export class QuadTreeNode {
         this._y = y;
         this._w = w;
         this._h = h;
+    }
+
+    checkAgain(node: Node2D) {
+        if (this._leftUp && this._leftDown && this._rightDown && this._rightUp) {
+            this._leftUp.checkAgain(node);
+            this._leftDown.checkAgain(node);
+            this._rightDown.checkAgain(node);
+            this._rightUp.checkAgain(node);
+        } else {
+            let index = this._nodes.findIndex(v => {
+                return v.uid == node.uid;
+            })
+            if (index > -1) {
+                this._nodes.splice(index, 1);
+            }
+        }
     }
 
     checkSplitRect() {
@@ -108,4 +124,6 @@ export class Node2D {
     y: number = 0;
     w: number = 0;
     h: number = 0;
+    node: Node;
+    uid: number;
 }
