@@ -12,10 +12,10 @@
         "_value": true
       },
       "animation": {
-        "_value": true
+        "_value": false
       },
       "skeletal-animation": {
-        "_value": true
+        "_value": false
       },
       "3d": {
         "_value": false
@@ -95,7 +95,7 @@
         "_value": true
       },
       "websocket": {
-        "_value": true
+        "_value": false
       },
       "websocket-server": {
         "_value": false
@@ -107,16 +107,16 @@
         "_value": false
       },
       "tiled-map": {
-        "_value": true
+        "_value": false
       },
       "spine": {
-        "_value": true
+        "_value": false
       },
       "dragon-bones": {
-        "_value": true
+        "_value": false
       },
       "marionette": {
-        "_value": true
+        "_value": false
       },
       "procedural-animation": {
         "_value": false
@@ -128,24 +128,17 @@
     "flags": {},
     "includeModules": [
       "2d",
-      "animation",
       "audio",
       "base",
-      "dragon-bones",
       "gfx-webgl",
       "gfx-webgl2",
       "intersection-2d",
-      "marionette",
       "particle-2d",
       "physics-2d-builtin",
       "profiler",
-      "skeletal-animation",
-      "spine",
-      "tiled-map",
       "tween",
       "ui",
       "video",
-      "websocket",
       "webview"
     ],
     "noDeprecatedFeatures": {
