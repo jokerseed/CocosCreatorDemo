@@ -58,11 +58,21 @@ export class QuadTreeNode {
     /**区域内的节点 */
     private _nodes: Array<Node2D> = [];
 
+    private _x1: number;
+    private _x2: number;
+    private _y1: number;
+    private _y2: number
+
     constructor(x: number, y: number, w: number, h: number) {
         this._x = x;
         this._y = y;
         this._w = w;
         this._h = h;
+
+        this._x1 = this._x - w * 0.5;
+        this._x2 = this._x + w * 0.5;
+        this._y1 = this._y - h * 0.5;
+        this._y2 = this._y + h * 0.5;
     }
 
     checkAgain(node: Node2D) {
@@ -106,15 +116,23 @@ export class QuadTreeNode {
 
     updateNode(node: Node2D) {
         //要判断交集
-
-        if (this._leftUp && this._leftDown && this._rightDown && this._rightUp) {
-            this._leftUp.updateNode(node);
-            this._leftDown.updateNode(node);
-            this._rightDown.updateNode(node);
-            this._rightUp.updateNode(node);
-        } else {
-            this._nodes.push(node);
-            this.checkSplitRect();
+        let x1, x2, y1, y2;
+        x1 = node.x - node.w * 0.5;
+        x2 = node.x + node.w * 0.5;
+        y1 = node.y - node.h * 0.5;
+        y2 = node.y + node.h * 0.5;
+        if ((x1 >= this._x1 && x1 <= this._x2) || (x2 >= this._x1 && x2 <= this._x2)) {
+            if ((y1 >= this._y1 && y1 <= this._y2) || (y2 >= this._y1 && y2 <= this._y2)) {
+                if (this._leftUp && this._leftDown && this._rightDown && this._rightUp) {
+                    this._leftUp.updateNode(node);
+                    this._leftDown.updateNode(node);
+                    this._rightDown.updateNode(node);
+                    this._rightUp.updateNode(node);
+                } else {
+                    this._nodes.push(node);
+                    this.checkSplitRect();
+                }
+            }
         }
     }
 }
@@ -125,5 +143,8 @@ export class Node2D {
     w: number = 0;
     h: number = 0;
     node: Node;
+    /**唯一id */
     uid: number;
+    /**包围盒类型 */
+    type: number;
 }
