@@ -11,20 +11,29 @@ export abstract class Bound2D {
 export class Box2D extends Bound2D {
     center: Vec2;
     size: Vec2;
-    halfSize: Vec2;
-    /**x1,x2,y1,y2 */
-    pointValue: Array<number> = [];
+    /**左上 */
+    topLeft: Vec2 = new Vec2();
+    /**左下 */
+    bottomLeft: Vec2 = new Vec2();
+    /**右上 */
+    topRight: Vec2 = new Vec2();
+    /**右下 */
+    bottomRight: Vec2 = new Vec2();
 
     constructor(center: Vec2, size: Vec2) {
         super();
         this.shapeType = ShapeType2D.Box;
         this.center = center;
         this.size = size;
-        this.halfSize = new Vec2(size.x * 0.5, size.y * 0.5);
-        this.pointValue[0] = this.center.x - this.halfSize.x;
-        this.pointValue[1] = this.center.x + this.halfSize.x;
-        this.pointValue[2] = this.center.y - this.halfSize.y;
-        this.pointValue[3] = this.center.y + this.halfSize.y;
+        let halfSize = new Vec2(size.x * 0.5, size.y * 0.5);
+        let x1 = this.center.x - halfSize.x;
+        let x2 = this.center.x + halfSize.x;
+        let y1 = this.center.y - halfSize.y;
+        let y2 = this.center.y + halfSize.y;
+        this.topLeft.set(x1, y2);
+        this.topRight.set(x2, y2);
+        this.bottomLeft.set(x1, y1);
+        this.bottomRight.set(x2, y1);
     }
 }
 
@@ -60,8 +69,8 @@ BoundCheckCollider2D[ShapeType2D.Box | ShapeType2D.Box] = function (a: Bound2D, 
     let a1 = a as Box2D;
     let b1 = b as Box2D;
     let isTriger = false;
-    let checkX = (a1.pointValue[0] >= b1.pointValue[0] && a1.pointValue[0] <= b1.pointValue[1]) || (a1.pointValue[1] >= b1.pointValue[0] && a1.pointValue[1] <= b1.pointValue[1]);
-    let checkY = (a1.pointValue[2] >= b1.pointValue[2] && a1.pointValue[2] <= b1.pointValue[3]) || (a1.pointValue[3] >= b1.pointValue[2] && a1.pointValue[3] <= b1.pointValue[3]);
+    let checkX = (a1.topLeft.x >= b1.topLeft.x && a1.topLeft.x <= b1.topRight.x) || (a1.topRight.x >= b1.topLeft.x && a1.topRight.x <= b1.topRight.x);
+    let checkY = (a1.bottomLeft.y >= b1.bottomLeft.y && a1.bottomLeft.y <= b1.topLeft.y) || (a1.topLeft.y >= b1.bottomLeft.y && a1.topLeft.y <= b1.topLeft.y);
     if (checkX && checkY) {
         isTriger = true;
     }
@@ -73,8 +82,8 @@ BoundCheckCollider2D[ShapeType2D.Box | ShapeType2D.Circle] = function (a: Bound2
     let b1 = a.shapeType == ShapeType2D.Circle ? a as Circle2D : b as Circle2D;
     let isTriger = false;
     // 计算圆形中心到矩形最近点的 x 和 y 距离
-    let nearestX = Math.max(a1.pointValue[0], Math.min(b1.center.x, a1.pointValue[1]));
-    let nearestY = Math.max(a1.pointValue[2], Math.min(b1.center.y, a1.pointValue[3]));
+    let nearestX = Math.max(a1.topLeft.x, Math.min(b1.center.x, a1.topRight.x));
+    let nearestY = Math.max(a1.bottomRight.y, Math.min(b1.center.y, a1.topRight.y));
     // 计算圆形中心到最近点的距离的平方
     let distanceSquared = (b1.center.x - nearestX) * (b1.center.x - nearestX) + (b1.center.y - nearestY) * (b1.center.y - nearestY);
     // 如果距离的平方小于圆形半径的平方，则发生碰撞
