@@ -35,6 +35,10 @@ export class Box2D extends Bound2D {
         this.bottomLeft.set(x1, y1);
         this.bottomRight.set(x2, y1);
     }
+
+    setRotation(rotation: math.Quat) {
+
+    }
 }
 
 export class Circle2D extends Bound2D {
